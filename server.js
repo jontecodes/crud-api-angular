@@ -18,10 +18,6 @@ app.use(session({
         maxAge: 60000
     }
 }));
-//mongoose
-require('./server/config/mongoose');
-//routes
-require('./server/config/routes')(app)
 // body-parser module
 var bodyParser = require('body-parser');
 // initialize body-parser module
@@ -32,6 +28,10 @@ var mongoose = require('mongoose');
 // link to static angular files
 app.use(express.static(__dirname + '/public/dist/public'))
 
+//mongoose
+require('./server/config/mongoose');
+//routes
+require('./server/config/routes')(app)
 
 // set server to port 8000
 app.listen(8000, function () {

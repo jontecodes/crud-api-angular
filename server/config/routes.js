@@ -8,10 +8,11 @@ module.exports = function(app){
     app.get('/tasks/:id', (req, res) => {
         tasks.task(req, res);
     })
-    app.post('/tasks', (req, res) => {
+    app.post('/create', (req, res) => {
+        console.log(req.body);
         tasks.create(req, res);
     })
-    app.put('tasks/:id', (req, res) => {
+    app.put('/tasks/edit/:id', (req, res) => {
         tasks.update(req, res);
     })
     app.delete('/tasks/:id', (req, res) => {

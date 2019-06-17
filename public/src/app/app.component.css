@@ -1,0 +1,14 @@
+* {
+  vertical-align: top;
+}
+.task {
+  outline: 1px solid black;
+}
+
+#left, #right {
+  display: inline-block;
+  width: 47%;
+}
+.new-form {
+  text-align: center;
+}

@@ -1,23 +1,51 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center; border: 2px solid orange; padding: 5px;">
-  <h1>
-    {{ title }}
-  </h1>
+<div id="container">
+  <div class="new-form">
+    <h1>
+      {{ title }}
+    </h1>
+    <h3>New Task</h3>
+    <p>{{newTask | json}}</p>
 
-  <div style="border: 2px solid blue; padding: 5px;">
-    <button (click)="onButtonClick($event)">GET ALL TASKS</button>
+    <form (submit)="onSubmit()">
+      <p>Task Title: <input type="text" name="newTask.title" [(ngModel)]="newTask.title" /></p>
+      <p>Task Description: <input type="text" name="newTask.description" [(ngModel)]="newTask.description" /></p>
+      <input type="submit" value="Create Task">
 
-    <div *ngFor="let task of tasks">
-      <p>{{task.title}}</p>
-      <button (click)="onShowClick(task._id)">SHOW</button>
-      <!-- <a href="{{task._id}}">Hello</a> -->
+    </form>
+  </div>
+  <div>
+    <div id="left">
+      <!-- <button (click)="onButtonClick($event)">GET ALL TASKS</button> -->
+      <h1>All Task</h1>
+      <div *ngFor="let task of tasks">
+        <div class="task">
+          <p>{{task.title}}</p>
+          <button (click)="onShowClick(task)">Edit</button>
+          <form (submit)="onDelete(task)">
+            <input type="submit" value="Delete">
+          </form>
+
+          <!-- <button (click)="onClickEdit(task._id)">Edit</button> -->
+          <!-- <a href="{{task._id}}">Hello</a> -->
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="editTask">
+      <div>
+        <p>{{editTask | json}}</p>
+        <form (submit)="onEditSubmit(editTask._id)">
+          <p>Title: <input type="text" name="editTask.title" [(ngModel)]="editTask.title" [value]="editTask.title"></p>
+          <p>Description: <input type="text" name="editTask.description" [(ngModel)]="editTask.description"> </p>
+          <input type="submit" value="Update">
+        </form>
+        <!-- <p>{{one.title}}</p>
+        <p>{{one.description}}</p> -->
+      </div>
     </div>
   </div>
-
-  <div *ngFor="let one of all">
-    <div style="border: 2px solid green; padding: 5px; margin-top: 5px;">
-      <p>{{one.title}}</p>
-      <p>{{one.description}}</p>
-    </div>
+  <div id="right">
+    <h1>Edit A Task</h1>
   </div>
   <router-outlet></router-outlet>

@@ -22,4 +22,15 @@ export class HttpService {
     // subscribe to out observable and provide the cose we would like to do with our data from the res
     return this._http.get('/tasks');
   }
+  addTask(newtask){
+    console.log(newtask);
+    return this._http.post('/create', newtask);
+  }
+  editTasks(task: any){
+    console.log('Submitted', task);
+    return this._http.put(`/tasks/edit/${task._id}`, task);
+  }
+  deleteTask(task: any){
+    return this._http.delete(`/tasks/${task._id}`, task);
+  }
 }

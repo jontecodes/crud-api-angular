@@ -11,25 +11,66 @@ export class AppComponent implements OnInit {
   title = "Restful Tasks API";
   tasks = [];
   all = [];
-  onButtonClick(event: any): void {
-    this.getTasksFromService();
-    console.log(event);
-  }
-  onShowClick(id) {
-    this.getOne(id);
-  }
+  newTask: any;
+  editTask: any;
+  delTask: any;
 
   constructor(private _httpService: HttpService) {}
 
   ngOnInit(){
+    this.editTask = {title: '', description: ''};
+    this.newTask = {title: '', description: ''};
+    // this.delTask = {}
+    this.getTasksFromService();
     // this.getTasksFromService()
   }
+  onButtonClick(event: any): void {
+    this.getTasksFromService();
+    console.log(event);
+  }
+  onDelClick(task){
+    this.delTask = task;
+  }
+  onShowClick(task) {
+    this.editTask = task;
+  }
+  onEditSubmit(x: any){
+    console.log('Edited Task', this.editTask);
+    this.edit(this.editTask);
+    this.getTasksFromService();
+  }
+  edit(x: any){
+    let observable = this._httpService.editTasks(x);
+    observable.subscribe(data => {
+      console.log('Got data edited', data);
+    })
+  }
+
+  onSubmit(){
+    console.log(this.newTask);
+    let observable = this._httpService.addTask(this.newTask);
+    observable.subscribe(data => {
+      console.log('Got post data!', data);
+      this.newTask = {title: "", description: ""}
+      this.getTasksFromService();
+    })
+  }
+
+  onDelete(task: any){
+    console.log('Deleted Task')
+    let observable = this._httpService.deleteTask(task);
+    observable.subscribe(data => {
+      console.log('Deleted data', data);
+      this.getTasksFromService();
+    })
+  }
+
   getOne(id){
     let obs = this._httpService.getSingleTask(id);
     obs.subscribe(data => {
       this.all = data['data'];
       console.log(this.all);
-      console.log('Got some data', data.data);
+      console.log('Got some data', data['data']);
     })
   }
   getTasksFromService(){

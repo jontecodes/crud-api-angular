@@ -33,17 +33,20 @@ module.exports = {
                 res.json({message: 'Error', error: err})
             } else {
                 console.log('Successful addition')
-                res.redirect('/tasks');
+                res.json({result: newtask});
             }
         })
     },
     update: (req, res) => {
-        Task.updateOne({_id: req.params.id}, function(err, updatedtask){
-            if(err){
+        Task.findByIdAndUpdate(req.params.id,{$set: req.body}, function(err, updatedtask){
+          console.log('Updating');
+          if(err){
                 console.log('Returned error', err);
                 res.json({message: 'Error', error: err})
             } else {
-                res.json({message: 'Successful update', data: updatedtask})
+                updatedtask.title = req.body.title;
+                updatedtask.description = req.body.description;
+                res.json({message: 'Success', data: updatedtask})
             }
         })
     },
@@ -53,7 +56,7 @@ module.exports = {
                 console.log('Returned error', err);
                 res.json({message: 'Error', error: err})
             } else {
-                res.redirect('/')
+                res.json({message: 'Success',result: deltask})
             }
         })
     }
